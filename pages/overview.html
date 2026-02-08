@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>🌍 Air Quality Double Jeopardy Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+</head>
+<body>
+  <div class="shell">
+    <aside class="sidebar">
+      <div class="brand">
+        <h2>🌍 AQI Dashboard</h2>
+        <p>Air Quality Analysis Tool</p>
+      </div>
+      <hr>
+      <div class="navblock">
+        <div class="navlabel">Navigation</div>
+        <nav class="nav"><a class="active" href="../pages/overview.html">🌍 Overview</a>
+<a class="" href="../pages/chronic.html">📊 Chronic Pollution</a>
+<a class="" href="../pages/acute.html">⚡ Extreme Spikes</a>
+<a class="" href="../pages/double-jeopardy.html">🎯 Double Jeopardy</a>
+<a class="" href="../pages/severity.html">📈 Severity Score</a>
+<a class="" href="../pages/drilldown.html">🔍 County Drilldown</a>
+<a class="" href="../pages/download.html">📥 Download & Methodology</a>
+<a class="" href="../pages/heatmap.html">🗺️ Geospatial Heatmap</a></nav>
+      </div>
+      <hr>
+      <div class="navblock">
+        <div class="navlabel">Data Source</div>
+        <p style="color:var(--sidebarText);margin:0;font-size:.9rem;line-height:1.5">
+          EPA Air Quality Index<br><span style="color:var(--sidebarMuted)">Annual Summary 2021–2025</span>
+        </p>
+      </div>
+    </aside>
+
+    <main class="main">
+      <div style="margin-bottom:8px">
+        <h1 class="h1">🌍 Air Quality Double Jeopardy Dashboard</h1>
+        <p class="subtitle">Identifying Communities Facing Chronic AND Acute Pollution Burden</p>
+      </div>
+      
+<div class="callout">
+  <strong>Project Summary:</strong> This dashboard analyzes EPA Air Quality Index data from 2021–2025 to identify counties experiencing <em>Double Jeopardy</em>—both persistently poor daily air quality and dangerous pollution spikes.
+</div>
+
+<div class="section-divider"></div>
+
+<div class="navlabel" style="color:var(--muted2)">Controls</div>
+<div class="controls">
+  <div class="control">
+    <label>Year Range to Include</label>
+    <div style="display:flex;gap:10px">
+      <select id="yearMin"></select>
+      <select id="yearMax"></select>
+    </div>
+    <div class="help">Select which years of data to include in the analysis.</div>
+  </div>
+  <div class="control">
+    <label>Filter by State</label>
+    <select id="stateSelect"></select>
+    <div class="help">Filter all calculations to a single state.</div>
+  </div>
+  <div class="control">
+    <label>Top N (Bar Chart)</label>
+    <input id="topN" type="range" min="5" max="25" step="1" value="10" />
+    <div class="help">Top N counties shown in quick bar preview.</div>
+    <div class="pill" style="display:inline-block;margin-top:10px"><span id="topNVal">10</span></div>
+  </div>
+</div>
+
+<div class="section-divider"></div>
+
+<div class="navlabel" style="color:var(--muted2)">Key Metrics at a Glance</div>
+<div class="metric-grid">
+  <div class="metric"><div class="label">Total Counties Analyzed</div><div class="value" id="kpiTotal">—</div><div class="delta" id="kpiTotalNote"> </div></div>
+  <div class="metric"><div class="label">Year Range</div><div class="value" id="kpiYears">—</div><div class="delta">Selected years included</div></div>
+  <div class="metric"><div class="label">Double Jeopardy Counties</div><div class="value" id="kpiDJ">—</div><div class="delta" id="kpiDJDelta">—</div></div>
+  <div class="metric"><div class="label">Geographic Filter</div><div class="value" id="kpiGeo">—</div><div class="delta">State selection</div></div>
+</div>
+
+<div class="section-divider"></div>
+
+<div class="grid-2">
+  <div class="chart-card">
+    <div class="h3">Risk Category Distribution</div>
+    <div id="pie" style="height:320px"></div>
+  </div>
+  <div class="chart-card">
+    <div class="h3">Current Thresholds (90th percentile)</div>
+    <div class="grid-2">
+      <div class="card" style="text-align:center">
+        <div class="badge">Chronic Threshold</div>
+        <div style="font-size:2.1rem;font-weight:800;color:var(--ink);margin:10px 0 6px" id="thrMed">—</div>
+        <div style="color:var(--muted2);font-size:.85rem">Mean Median AQI</div>
+      </div>
+      <div class="card" style="text-align:center">
+        <div class="badge">Acute Threshold</div>
+        <div style="font-size:2.1rem;font-weight:800;color:var(--ink);margin:10px 0 6px" id="thrMax">—</div>
+        <div style="color:var(--muted2);font-size:.85rem">Mean Max AQI</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section-divider"></div>
+
+<div class="h3">🗺️ Double Jeopardy Overview</div>
+<p class="subtitle" style="margin-top:-6px">Interactive scatter plot of counties by chronic vs acute pollution levels (Mono County, CA excluded from scatter).</p>
+<div class="chart-card">
+  <div id="scatter" style="height:560px"></div>
+</div>
+
+<div class="callout" style="margin-top:16px">
+  <strong>How to read this chart:</strong> Each dot is a county. The upper-right quadrant indicates Double Jeopardy (high chronic and high acute). Use the left navigation to explore each dimension.
+</div>
+
+<div class="section-divider"></div>
+<div class="h3">Quick Preview: Top Counties by Mean Median AQI</div>
+<div class="chart-card"><div id="barTop" style="height:520px"></div></div>
+
+      <div class="footer"><strong>Built for:</strong> Datathon 2026 &nbsp;|&nbsp; <strong>Stack:</strong> HTML + JS + Plotly (GitHub Pages)</div>
+    </main>
+  </div>
+  <script type="module" src="../assets/overview.js"></script>
+</body>
+</html>

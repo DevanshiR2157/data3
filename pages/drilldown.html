@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>🔍 County Drilldown</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+</head>
+<body>
+  <div class="shell">
+    <aside class="sidebar">
+      <div class="brand">
+        <h2>🌍 AQI Dashboard</h2>
+        <p>Air Quality Analysis Tool</p>
+      </div>
+      <hr>
+      <div class="navblock">
+        <div class="navlabel">Navigation</div>
+        <nav class="nav"><a class="" href="../pages/overview.html">🌍 Overview</a>
+<a class="" href="../pages/chronic.html">📊 Chronic Pollution</a>
+<a class="" href="../pages/acute.html">⚡ Extreme Spikes</a>
+<a class="" href="../pages/double-jeopardy.html">🎯 Double Jeopardy</a>
+<a class="" href="../pages/severity.html">📈 Severity Score</a>
+<a class="active" href="../pages/drilldown.html">🔍 County Drilldown</a>
+<a class="" href="../pages/download.html">📥 Download & Methodology</a>
+<a class="" href="../pages/heatmap.html">🗺️ Geospatial Heatmap</a></nav>
+      </div>
+      <hr>
+      <div class="navblock">
+        <div class="navlabel">Data Source</div>
+        <p style="color:var(--sidebarText);margin:0;font-size:.9rem;line-height:1.5">
+          EPA Air Quality Index<br><span style="color:var(--sidebarMuted)">Annual Summary 2021–2025</span>
+        </p>
+      </div>
+    </aside>
+
+    <main class="main">
+      <div style="margin-bottom:8px">
+        <h1 class="h1">🔍 County Drilldown</h1>
+        <p class="subtitle">Explore Individual County Profiles</p>
+      </div>
+      
+<div class="callout teal">
+  <strong>Deep Dive:</strong> Select a county to view year-by-year trends (2021–2025), compare to thresholds, and download its raw rows.
+</div>
+<div class="section-divider"></div>
+<div class="navlabel" style="color:var(--muted2)">Select County</div>
+<div class="controls">
+  <div class="control"><label>Select State</label><select id="stateSelect"></select></div>
+  <div class="control"><label>Select County</label><select id="countySelect"></select></div>
+  <div class="control"><label>Threshold Percentile</label><input id="pct" type="range" min="80" max="99" step="1" value="90"/><div class="pill" style="display:inline-block;margin-top:10px"><span id="pctVal">90</span></div></div>
+</div>
+<div class="section-divider"></div>
+<div class="h3" id="profileTitle">Profile</div>
+<div class="metric-grid">
+  <div class="metric"><div class="label">5-Year Mean Median AQI</div><div class="value" id="mMed">—</div><div class="delta" id="dMed">—</div></div>
+  <div class="metric"><div class="label">5-Year Mean Max AQI</div><div class="value" id="mMax">—</div><div class="delta" id="dMax">—</div></div>
+  <div class="metric"><div class="label">Chronic Rank</div><div class="value" id="mCR">—</div><div class="delta" id="dCR">—</div></div>
+  <div class="metric"><div class="label">Acute Rank</div><div class="value" id="mAR">—</div><div class="delta" id="dAR">—</div></div>
+</div>
+<div id="statusBox" style="margin-top:14px"></div>
+<div class="section-divider"></div>
+<div class="h3">📈 Yearly Trends (2021–2025)</div>
+<div class="chart-card"><div id="trend" style="height:520px"></div></div>
+<div class="section-divider"></div>
+<div class="h3">Raw Data</div>
+<div class="table-card"><table id="table" style="width:100%;border-collapse:collapse"></table></div>
+<div style="margin-top:12px;display:flex;gap:10px;flex-wrap:wrap">
+  <button id="download" style="cursor:pointer;padding:10px 12px;border-radius:12px;border:1px solid var(--border);background:#fff;font-weight:800">📥 Download County Data (CSV)</button>
+</div>
+
+      <div class="footer"><strong>Built for:</strong> Datathon 2026 &nbsp;|&nbsp; <strong>Stack:</strong> HTML + JS + Plotly (GitHub Pages)</div>
+    </main>
+  </div>
+  <script type="module" src="../assets/drilldown.js"></script>
+</body>
+</html>

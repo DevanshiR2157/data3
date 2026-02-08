@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>🎯 Vulnerability Profile Analysis</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+</head>
+<body>
+  <div class="shell">
+    <aside class="sidebar">
+      <div class="brand">
+        <h2>🌍 AQI Dashboard</h2>
+        <p>Air Quality Analysis Tool</p>
+      </div>
+      <hr>
+      <div class="navblock">
+        <div class="navlabel">Navigation</div>
+        <nav class="nav"><a class="" href="../pages/overview.html">🌍 Overview</a>
+<a class="" href="../pages/chronic.html">📊 Chronic Pollution</a>
+<a class="" href="../pages/acute.html">⚡ Extreme Spikes</a>
+<a class="active" href="../pages/double-jeopardy.html">🎯 Double Jeopardy</a>
+<a class="" href="../pages/severity.html">📈 Severity Score</a>
+<a class="" href="../pages/drilldown.html">🔍 County Drilldown</a>
+<a class="" href="../pages/download.html">📥 Download & Methodology</a>
+<a class="" href="../pages/heatmap.html">🗺️ Geospatial Heatmap</a></nav>
+      </div>
+      <hr>
+      <div class="navblock">
+        <div class="navlabel">Data Source</div>
+        <p style="color:var(--sidebarText);margin:0;font-size:.9rem;line-height:1.5">
+          EPA Air Quality Index<br><span style="color:var(--sidebarMuted)">Annual Summary 2021–2025</span>
+        </p>
+      </div>
+    </aside>
+
+    <main class="main">
+      <div style="margin-bottom:8px">
+        <h1 class="h1">🎯 Vulnerability Profile Analysis</h1>
+        <p class="subtitle">Counties by Vulnerability (Chronic) vs Hazard (Acute) Scores</p>
+      </div>
+      
+<div class="callout red">
+  <strong>Understanding the Vulnerability Profile:</strong> This page maps counties by normalized <em>Vulnerability</em> (chronic burden) vs <em>Hazard</em> (acute events). Upper-right indicates Double Jeopardy.
+</div>
+<div class="section-divider"></div>
+<div class="navlabel" style="color:var(--muted2)">Controls</div>
+<div class="controls">
+  <div class="control"><label>Percentile Threshold</label><input id="pct" type="range" min="80" max="99" step="1" value="90"/><div class="pill" style="display:inline-block;margin-top:10px"><span id="pctVal">90</span></div><div class="help">Used to compute DJ threshold lines on raw AQI metrics (not used for normalization).</div></div>
+  <div class="control"><label>Filter by State</label><select id="stateSelect"></select></div>
+  <div class="control"><label>Top N for Bar Chart</label><input id="topN" type="range" min="5" max="25" step="5" value="10"/><div class="pill" style="display:inline-block;margin-top:10px"><span id="topNVal">10</span></div></div>
+</div>
+<div class="section-divider"></div>
+<div class="metric-grid">
+  <div class="metric"><div class="label">🔴 Double Jeopardy</div><div class="value" id="mDJ">—</div></div>
+  <div class="metric"><div class="label">🟡 High Vulnerability Only</div><div class="value" id="mHV">—</div></div>
+  <div class="metric"><div class="label">🟠 High Hazard Only</div><div class="value" id="mHH">—</div></div>
+  <div class="metric"><div class="label">🟢 Low Risk</div><div class="value" id="mLR">—</div></div>
+</div>
+<div class="section-divider"></div>
+<div class="h3">Vulnerability Profile Dashboard</div>
+<div class="grid-2" style="grid-template-columns:1fr 1.5fr">
+  <div class="chart-card"><div class="h3" style="margin:0 0 8px">Top Counties by Combined Severity</div><div id="bar" style="height:560px"></div></div>
+  <div class="chart-card"><div class="h3" style="margin:0 0 8px">Vulnerability Profile (Interactive)</div><div id="scatter" style="height:560px"></div></div>
+</div>
+<div class="section-divider"></div>
+<div class="card">
+  <div class="h3" style="margin-top:0;color:var(--redDark)">💡 How to Read This Dashboard</div>
+  <p><strong>Vulnerability Score</strong> (X): normalized mean Median AQI (0 best, 1 worst).<br>
+  <strong>Hazard Score</strong> (Y): normalized mean Max AQI (0 best, 1 worst).</p>
+  <ul>
+    <li><strong>Diagonal line (y=x)</strong>: above means hazard &gt; vulnerability.</li>
+    <li><strong>Mean reference lines</strong>: split into four quadrants.</li>
+    <li><strong>Upper-right</strong>: Double Jeopardy.</li>
+  </ul>
+</div>
+<div class="section-divider"></div>
+<div class="h3">Double Jeopardy Counties</div>
+<div class="table-card"><table id="table" style="width:100%;border-collapse:collapse"></table></div>
+
+      <div class="footer"><strong>Built for:</strong> Datathon 2026 &nbsp;|&nbsp; <strong>Stack:</strong> HTML + JS + Plotly (GitHub Pages)</div>
+    </main>
+  </div>
+  <script type="module" src="../assets/double_jeopardy.js"></script>
+</body>
+</html>

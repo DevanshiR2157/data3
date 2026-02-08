@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>🗺️ Geospatial Heatmap</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+</head>
+<body>
+  <div class="shell">
+    <aside class="sidebar">
+      <div class="brand">
+        <h2>🌍 AQI Dashboard</h2>
+        <p>Air Quality Analysis Tool</p>
+      </div>
+      <hr>
+      <div class="navblock">
+        <div class="navlabel">Navigation</div>
+        <nav class="nav"><a class="" href="../pages/overview.html">🌍 Overview</a>
+<a class="" href="../pages/chronic.html">📊 Chronic Pollution</a>
+<a class="" href="../pages/acute.html">⚡ Extreme Spikes</a>
+<a class="" href="../pages/double-jeopardy.html">🎯 Double Jeopardy</a>
+<a class="" href="../pages/severity.html">📈 Severity Score</a>
+<a class="" href="../pages/drilldown.html">🔍 County Drilldown</a>
+<a class="" href="../pages/download.html">📥 Download & Methodology</a>
+<a class="active" href="../pages/heatmap.html">🗺️ Geospatial Heatmap</a></nav>
+      </div>
+      <hr>
+      <div class="navblock">
+        <div class="navlabel">Data Source</div>
+        <p style="color:var(--sidebarText);margin:0;font-size:.9rem;line-height:1.5">
+          EPA Air Quality Index<br><span style="color:var(--sidebarMuted)">Annual Summary 2021–2025</span>
+        </p>
+      </div>
+    </aside>
+
+    <main class="main">
+      <div style="margin-bottom:8px">
+        <h1 class="h1">🗺️ Geospatial Heatmap</h1>
+        <p class="subtitle">High AQI days by state across 2021–2025</p>
+      </div>
+      
+<div class="callout">
+  <strong>Geospatial Heatmap:</strong> This map shows total high-AQI days by state across the selected years (USG + Unhealthy + Very Unhealthy + Hazardous days).
+</div>
+<div class="section-divider"></div>
+<div class="controls" style="grid-template-columns:1fr 1fr">
+  <div class="control">
+    <label>Year Range</label>
+    <div style="display:flex;gap:10px">
+      <select id="yearMin"></select>
+      <select id="yearMax"></select>
+    </div>
+  </div>
+  <div class="control">
+    <label>Scope</label>
+    <select id="scope"><option value="us" selected>U.S. states + DC</option><option value="all">All in file</option></select>
+    <div class="help">Heatmap uses state totals; non-US entries are ignored in US scope.</div>
+  </div>
+</div>
+<div class="section-divider"></div>
+<div class="metric-grid" style="grid-template-columns:repeat(4,1fr)">
+  <div class="metric"><div class="label">States included</div><div class="value" id="kStates">—</div></div>
+  <div class="metric"><div class="label">Total high-AQI days</div><div class="value" id="kTotal">—</div></div>
+  <div class="metric"><div class="label">Max (single state)</div><div class="value" id="kMax">—</div><div class="delta" id="kMax2"> </div></div>
+  <div class="metric"><div class="label">Files loaded</div><div class="value" id="kFiles">—</div></div>
+</div>
+<div class="section-divider"></div>
+<div class="chart-card"><div id="map" style="height:760px"></div></div>
+
+      <div class="footer"><strong>Built for:</strong> Datathon 2026 &nbsp;|&nbsp; <strong>Stack:</strong> HTML + JS + Plotly (GitHub Pages)</div>
+    </main>
+  </div>
+  <script type="module" src="../assets/heatmap.js"></script>
+</body>
+</html>

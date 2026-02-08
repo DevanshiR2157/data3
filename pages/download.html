@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>📥 Download Data & Methodology</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+</head>
+<body>
+  <div class="shell">
+    <aside class="sidebar">
+      <div class="brand">
+        <h2>🌍 AQI Dashboard</h2>
+        <p>Air Quality Analysis Tool</p>
+      </div>
+      <hr>
+      <div class="navblock">
+        <div class="navlabel">Navigation</div>
+        <nav class="nav"><a class="" href="../pages/overview.html">🌍 Overview</a>
+<a class="" href="../pages/chronic.html">📊 Chronic Pollution</a>
+<a class="" href="../pages/acute.html">⚡ Extreme Spikes</a>
+<a class="" href="../pages/double-jeopardy.html">🎯 Double Jeopardy</a>
+<a class="" href="../pages/severity.html">📈 Severity Score</a>
+<a class="" href="../pages/drilldown.html">🔍 County Drilldown</a>
+<a class="active" href="../pages/download.html">📥 Download & Methodology</a>
+<a class="" href="../pages/heatmap.html">🗺️ Geospatial Heatmap</a></nav>
+      </div>
+      <hr>
+      <div class="navblock">
+        <div class="navlabel">Data Source</div>
+        <p style="color:var(--sidebarText);margin:0;font-size:.9rem;line-height:1.5">
+          EPA Air Quality Index<br><span style="color:var(--sidebarMuted)">Annual Summary 2021–2025</span>
+        </p>
+      </div>
+    </aside>
+
+    <main class="main">
+      <div style="margin-bottom:8px">
+        <h1 class="h1">📥 Download Data & Methodology</h1>
+        <p class="subtitle">Export processed datasets and review the approach</p>
+      </div>
+      
+<div class="h2">Data Downloads</div>
+<div class="grid-2">
+  <div class="card">
+    <div class="h3" style="margin-top:0;color:var(--redDark)">🔴 Double Jeopardy Counties</div>
+    <p>Counties exceeding the chosen percentile for BOTH Mean Median AQI and Mean Max AQI (2021–2025).</p>
+    <div class="controls" style="grid-template-columns:1fr">
+      <div class="control"><label>Percentile Threshold</label><input id="pct" type="range" min="80" max="99" step="1" value="90"/><div class="pill" style="display:inline-block;margin-top:10px"><span id="pctVal">90</span></div></div>
+    </div>
+    <button id="dlDJ" style="cursor:pointer;padding:10px 12px;border-radius:12px;border:1px solid var(--border);background:#fff;font-weight:800">📥 Download Double Jeopardy List</button>
+  </div>
+  <div class="card">
+    <div class="h3" style="margin-top:0;color:var(--purpleDark)">📈 Top Severity Counties</div>
+    <p>Top 50 counties ranked by combined Severity Score (normalized chronic + acute exposure).</p>
+    <button id="dlTop50" style="cursor:pointer;padding:10px 12px;border-radius:12px;border:1px solid var(--border);background:#fff;font-weight:800">📥 Download Top 50 Severity List</button>
+  </div>
+</div>
+
+<div class="section-divider"></div>
+<div class="card">
+  <div class="h3" style="margin-top:0;color:var(--blueDark)">Complete County Statistics</div>
+  <p>All counties with aggregated statistics, risk categories, and severity scores.</p>
+  <button id="dlAll" style="cursor:pointer;padding:10px 12px;border-radius:12px;border:1px solid var(--border);background:#fff;font-weight:800">📥 Download Full Dataset</button>
+</div>
+
+<div class="section-divider"></div>
+<div class="h2">Methodology</div>
+<div class="card">
+  <ul>
+    <li><strong>Data Source:</strong> EPA AQI annual summaries (2021–2025)</li>
+    <li><strong>Unit:</strong> U.S. counties</li>
+    <li><strong>Aggregation:</strong> 5-year average of annual Median AQI and Max AQI per county</li>
+    <li><strong>Thresholds:</strong> percentile computed dynamically from the filtered dataset</li>
+  </ul>
+</div>
+
+<div class="section-divider"></div>
+<div class="callout orange">
+  <strong>Limitations:</strong> Monitoring coverage varies; extreme wildfire smoke can skew Max AQI; 5-year averages smooth year-to-year variation; analysis is not population-weighted.
+</div>
+
+      <div class="footer"><strong>Built for:</strong> Datathon 2026 &nbsp;|&nbsp; <strong>Stack:</strong> HTML + JS + Plotly (GitHub Pages)</div>
+    </main>
+  </div>
+  <script type="module" src="../assets/download.js"></script>
+</body>
+</html>

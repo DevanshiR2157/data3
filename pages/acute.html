@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>⚡ Extreme Pollution Spikes</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+</head>
+<body>
+  <div class="shell">
+    <aside class="sidebar">
+      <div class="brand">
+        <h2>🌍 AQI Dashboard</h2>
+        <p>Air Quality Analysis Tool</p>
+      </div>
+      <hr>
+      <div class="navblock">
+        <div class="navlabel">Navigation</div>
+        <nav class="nav"><a class="" href="../pages/overview.html">🌍 Overview</a>
+<a class="" href="../pages/chronic.html">📊 Chronic Pollution</a>
+<a class="active" href="../pages/acute.html">⚡ Extreme Spikes</a>
+<a class="" href="../pages/double-jeopardy.html">🎯 Double Jeopardy</a>
+<a class="" href="../pages/severity.html">📈 Severity Score</a>
+<a class="" href="../pages/drilldown.html">🔍 County Drilldown</a>
+<a class="" href="../pages/download.html">📥 Download & Methodology</a>
+<a class="" href="../pages/heatmap.html">🗺️ Geospatial Heatmap</a></nav>
+      </div>
+      <hr>
+      <div class="navblock">
+        <div class="navlabel">Data Source</div>
+        <p style="color:var(--sidebarText);margin:0;font-size:.9rem;line-height:1.5">
+          EPA Air Quality Index<br><span style="color:var(--sidebarMuted)">Annual Summary 2021–2025</span>
+        </p>
+      </div>
+    </aside>
+
+    <main class="main">
+      <div style="margin-bottom:8px">
+        <h1 class="h1">⚡ Extreme Pollution Spikes</h1>
+        <p class="subtitle">Top Counties by Mean Max AQI (2021–2025)</p>
+      </div>
+      
+<div class="callout orange">
+  <strong>What are Extreme Spikes?</strong> The Max AQI represents the worst single day of air quality each year. High multi-year mean Max AQI indicates a county prone to dangerous pollution episodes.
+</div>
+<div class="section-divider"></div>
+<div class="navlabel" style="color:var(--muted2)">Filters</div>
+<div class="controls">
+  <div class="control"><label>Select State</label><select id="stateSelect"></select></div>
+  <div class="control"><label>Show Top N Counties</label><input id="topN" type="range" min="10" max="50" step="5" value="15"/><div class="pill" style="display:inline-block;margin-top:10px"><span id="topNVal">15</span></div></div>
+  <div class="control"><label>Outlier Handling</label>
+    <select id="outlier">
+      <option value="none">None</option>
+      <option value="cap500">Cap at 500</option>
+      <option value="winsor1">Winsorize Top 1%</option>
+    </select>
+    <div class="help">Extreme Max AQI values (often from wildfires) can skew visualizations.</div>
+  </div>
+</div>
+<div class="section-divider"></div>
+<div class="h3" id="titleTop">Top 15 Counties by Acute Pollution</div>
+<div class="chart-card"><div id="bar" style="height:700px"></div></div>
+<div class="callout orange" id="outlierNote" style="display:none;margin-top:16px">
+  <strong>About Outliers:</strong> Some counties have extreme Max AQI values due to wildfire smoke. Outlier handling helps visualize variation while keeping true values in the data table.
+</div>
+<div class="section-divider"></div>
+<div class="h3">📋 Data Table (True Values)</div>
+<div class="table-card"><table id="table" style="width:100%;border-collapse:collapse"></table></div>
+
+      <div class="footer"><strong>Built for:</strong> Datathon 2026 &nbsp;|&nbsp; <strong>Stack:</strong> HTML + JS + Plotly (GitHub Pages)</div>
+    </main>
+  </div>
+  <script type="module" src="../assets/acute.js"></script>
+</body>
+</html>
